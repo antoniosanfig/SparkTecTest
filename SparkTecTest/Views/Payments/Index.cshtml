@@ -1,0 +1,92 @@
+﻿@model IEnumerable<SparkTecTest.Models.Payments>
+
+@{
+    ViewBag.Title = "Index";
+}
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#selectAll').click(function () {
+            if ($(this).is(":checked")) {
+                $(".chkCheckBoxId").prop("checked", true)
+            }
+            else {
+                $(".chkCheckBoxId").prop("checked", false)
+            }
+        });
+    });
+</script>
+
+@using (Html.BeginForm("Delete", "Payments", FormMethod.Post))
+{
+    <h2>Index</h2>
+
+    <p>
+        <label>Select all</label>
+        <input type="checkbox" class="btn btn-secondary" id="selectAll" />
+        @Html.ActionLink("Create New", "Create", "", new { @class = "btn btn-success" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.type)
+               
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ammount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isSettled)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.owner)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                   
+                    @if (item.type == 1)
+                    {
+                        <p>Dollars.</p>
+                    }
+                    else if (item.type == 2)
+                    {
+                        <p>Pesos MXN.</p>
+                    }
+                    else if (item.type == 3)
+                    {
+                        <p>Items.</p>
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ammount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.isSettled)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.owner)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.paymentId }, new { @class = "btn btn-warning" }) | Select
+
+                    <input type="checkbox" name="selectedItems" class="chkCheckBoxId" value="@item.paymentId" />
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <input type="submit" class="btn btn-danger" value="Delete Selected" />
+}
